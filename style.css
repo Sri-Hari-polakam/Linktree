@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #6e4ea5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.phone {
+  width: 360px;
+  background: #9b7edb;
+  border-radius: 25px;
+  padding: 15px;
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.profile img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.profile h2 {
+  margin-top: 10px;
+}
+
+.profile p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ===== HARD RESET FOR ANCHOR UNDERLINE ===== */
+a,
+a:link,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+/* Linktree card itself */
+.link-item {
+  text-decoration: none !important;
+  color: #4b2ea8;
+  display: flex;
+  align-items: center;
+}
+
+/* Text inside the card */
+.link-item .link-text {
+  text-decoration: none !important;
+}
+
+
+
+/* Ensure span text keeps its style */
+.link-item span {
+  color: inherit;
+}
+
+
+.links {
+  margin-top: 20px;
+}
+
+.link-item {
+  background: white;
+  color: #4b2ea8;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.link-item:hover {
+  transform: scale(1.03);
+}
+
+.link-item img {
+  width: 28px;
+  height: 28px;
+}
+
+.link-item span {
+  flex: 1;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.social {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.social i {
+  margin: 0 8px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  animation: pop 0.3s ease;
+}
+
+.popup-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.popup-box button {
+  width: 100%;
+  padding: 10px;
+  background: #6e4ea5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

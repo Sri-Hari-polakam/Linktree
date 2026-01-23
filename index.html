@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Linktree Clone</title>
+
+  <!-- Font Awesome Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="phone">
+  <!-- Header -->
+  <div class="header">
+    <i class="fa-solid fa-gear"></i>
+    <i class="fa-solid fa-arrow-up-from-bracket" onclick="openPopup()"></i>
+  </div>
+
+  <!-- Profile -->
+  <div class="profile">
+    <img src="C:\linktree\WhatsApp Image 2026-01-22 at 8.26.55 PM.jpeg" alt="profile">
+    <h2>SRI HARI</h2>
+    <p>I’m a Software Engineer | Content Creator</p>    
+  </div>
+
+  <!-- Links -->
+  <div class="links">
+     <a href="https://www.linkedin.com/in/srihari-polakam-065251226?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+    <div class="link-item">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png">
+      <span>LinkedIn</span>
+      <i class="fa-solid fa-ellipsis"></i>
+    </div></a>
+      <a href="https://www.instagram.com/sri_official_account?igsh=MWoxMmI0NjUwYWhseg==" target="_blank">
+    <div class="link-item">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+      <span>Instagram</span>
+      <i class="fa-solid fa-ellipsis"></i>
+    </div></a>
+
+     <a href="https://github.com/Sri-Hari-polakam" target="_blank">
+    <div class="link-item">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png">
+      <span>GitHub</span>
+      <i class="fa-solid fa-ellipsis"></i>
+    </div></a>
+
+    <a href="https://youtube.com/@annichupistha8671?si=oXtSmM0UwHMW9INN" target="_blank">
+    <div class="link-item">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+      <span>YouTube – My Channel</span>
+      <i class="fa-solid fa-ellipsis"></i>
+    </div></a>
+    <a href="c:\Users\23000\AppData\Local\Packages\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\LocalState\sessions\663BAD919A8E8353F7B27988153B92EE99E60F78\transfers\2026-04\WhatsApp Image 2026-01-22 at 8.11.24 PM.jpeg" target="_blank">
+    <div class="link-item">
+      <img src="C:\linktree\pngtree-whatsapp-icon-png-image_6315990.png">
+      <span>Whats App</span>
+      <i class="fa-solid fa-ellipsis"></i>
+  </div>
+
+
+  <!-- Social Icons -->
+  <div class="social">
+    <i class="fa-brands fa-telegram"></i>
+    <i class="fa-brands fa-linkedin"></i>
+    <i class="fa-brands fa-instagram"></i>
+    <i class="fa-brands fa-x-twitter"></i>
+  </div>
+</div>
+
+<!-- Popup -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h3>Share my Linktree</h3>
+    <input type="text" value="https://yourlink.com" readonly>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
