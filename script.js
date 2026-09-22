@@ -1,6 +1,6 @@
 /**
- * ADVANCED LINK TREE - INTERACTIVE AUDIO & VISUAL ENGINE
- * Web Audio API Synth, HTML5 Canvas Background, Intro Timeline & Micro-interactions
+ * FUNNIII MEDIA - SRI HARI LINKTREE
+ * Interactive Audio & Visual Engine, Tab Filtering, Particles & Micro-interactions
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Setup Mouse Glow Tracker (Desktop)
   initMouseGlow();
 
-  // Setup Card Scroll & Entrance Stagger
+  // Setup Category Filtering Tabs
+  initCategoryTabs(audio);
+
+  // Setup Card Micro-interactions
   initCardAnimations(audio);
 
   // Setup Sound Toggle Button
@@ -51,7 +54,7 @@ class AudioSynthesizer {
       this.ctx = new AudioCtx();
 
       this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.value = this.isMuted ? 0 : 0.4;
+      this.masterGain.gain.value = this.isMuted ? 0 : 0.35;
       this.masterGain.connect(this.ctx.destination);
 
       this.isInitialized = true;
@@ -74,7 +77,7 @@ class AudioSynthesizer {
     localStorage.setItem("linktree_muted", this.isMuted);
 
     if (this.masterGain) {
-      const targetGain = this.isMuted ? 0 : 0.4;
+      const targetGain = this.isMuted ? 0 : 0.35;
       this.masterGain.gain.setTargetAtTime(targetGain, this.ctx.currentTime, 0.1);
     }
 
@@ -160,7 +163,7 @@ class AudioSynthesizer {
     filter.frequency.setValueAtTime(400, now);
 
     this.ambientGain.gain.setValueAtTime(0.001, now);
-    this.ambientGain.gain.exponentialRampToValueAtTime(0.04, now + 2);
+    this.ambientGain.gain.exponentialRampToValueAtTime(0.03, now + 2);
 
     this.ambientOsc1.connect(filter);
     this.ambientOsc2.connect(filter);
@@ -179,37 +182,48 @@ function initIntroSequence(audio) {
   const intro = document.getElementById("intro-overlay");
   if (!intro) return;
 
-  // Reduced motion user preference check
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     intro.classList.add("hidden");
-    revealCardsImmediately();
     return;
   }
 
-  // Set timeout for smooth reveal
   setTimeout(() => {
     intro.classList.add("hidden");
     audio.playChime();
     audio.playAmbientPad();
-
-    // Trigger card entrance stagger
-    setTimeout(() => {
-      revealCardsStaggered();
-    }, 200);
-  }, 2000);
+  }, 1800);
 }
 
-function revealCardsImmediately() {
-  const cards = document.querySelectorAll(".link-card");
-  cards.forEach(card => card.classList.add("reveal"));
-}
+/* ==========================================================================
+   CATEGORY TABS FILTERING
+   ========================================================================== */
+function initCategoryTabs(audio) {
+  const tabBtns = document.querySelectorAll(".tab-btn");
+  const sectionGroups = document.querySelectorAll(".section-group");
 
-function revealCardsStaggered() {
-  const cards = document.querySelectorAll(".link-card");
-  cards.forEach((card, i) => {
-    setTimeout(() => {
-      card.classList.add("reveal");
-    }, i * 90);
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      audio.playClick();
+
+      // Update active tab styling
+      tabBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const filter = btn.getAttribute("data-filter");
+
+      sectionGroups.forEach(section => {
+        if (filter === "all") {
+          section.classList.remove("hidden");
+        } else {
+          const cat = section.getAttribute("data-category");
+          if (cat === filter) {
+            section.classList.remove("hidden");
+          } else {
+            section.classList.add("hidden");
+          }
+        }
+      });
+    });
   });
 }
 
@@ -237,8 +251,7 @@ function initParticleCanvas() {
     mouseY = e.clientY;
   });
 
-  // Create particles
-  const particleCount = Math.min(Math.floor(width / 25), 50);
+  const particleCount = Math.min(Math.floor(width / 24), 50);
   const particles = [];
 
   for (let i = 0; i < particleCount; i++) {
@@ -255,7 +268,6 @@ function initParticleCanvas() {
   function draw() {
     ctx.clearRect(0, 0, width, height);
 
-    // Draw particles & links
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
@@ -267,13 +279,11 @@ function initParticleCanvas() {
       if (p.y < 0) p.y = height;
       if (p.y > height) p.y = 0;
 
-      // Draw particle dot
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(139, 92, 246, ${p.alpha})`;
       ctx.fill();
 
-      // Connect nearby particles
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
         const dx = p.x - p2.x;
@@ -290,7 +300,6 @@ function initParticleCanvas() {
         }
       }
 
-      // Mouse attraction
       const mdx = mouseX - p.x;
       const mdy = mouseY - p.y;
       const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
@@ -339,10 +348,10 @@ function initMouseGlow() {
 }
 
 /* ==========================================================================
-   CARD INTERACTIONS & SOUND FEEDBACK
+   CARD INTERACTIONS & AUDIO FEEDBACK
    ========================================================================== */
 function initCardAnimations(audio) {
-  const interactiveElems = document.querySelectorAll(".link-card, .social-icon-pill, .action-btn");
+  const interactiveElems = document.querySelectorAll(".project-card, .service-card, .direct-contact-card, .social-icon-pill, .action-btn, .contact-pill");
   
   interactiveElems.forEach((elem) => {
     elem.addEventListener("click", () => {
@@ -358,7 +367,6 @@ function initSoundControl(audio) {
   const soundBtn = document.getElementById("sound-toggle");
   if (!soundBtn) return;
 
-  // Set initial visual state
   if (!audio.isMuted) {
     soundBtn.classList.add("active");
   }
@@ -382,9 +390,15 @@ function initPopupAndCopy(audio) {
   const shareInput = document.getElementById("share-url-input");
   if (shareInput) {
     shareInput.value = window.location.href;
+    
+    // Update WhatsApp share link
+    const waShare = document.getElementById("wa-share-link");
+    if (waShare) {
+      const shareText = encodeURIComponent(`Check out Sri Hari (Founder of Funniii Media & Funniii Tech): ${window.location.href}`);
+      waShare.href = `https://api.whatsapp.com/send?text=${shareText}`;
+    }
   }
 
-  // Close popup on backdrop click
   const popup = document.getElementById("popup");
   if (popup) {
     popup.addEventListener("click", (e) => {
@@ -420,7 +434,6 @@ function copyLink() {
     showToast("Link copied to clipboard!");
     closePopup();
   }).catch(() => {
-    // Fallback copy
     document.execCommand("copy");
     showToast("Link copied to clipboard!");
     closePopup();
@@ -441,17 +454,17 @@ function showToast(message) {
 }
 
 /* ==========================================================================
-   ACCENT COLOR THEME SWITCHER (MICRO INTERACTION)
+   ACCENT COLOR THEME SWITCHER
    ========================================================================== */
 function initThemeSwitcher(audio) {
   const settingsBtn = document.getElementById("settings-btn");
   if (!settingsBtn) return;
 
   const colorPalettes = [
-    { primary: "#8b5cf6", secondary: "#06b6d4", tertiary: "#ec4899" }, // Default Violet Cyber
-    { primary: "#3b82f6", secondary: "#10b981", tertiary: "#6366f1" }, // Emerald Ocean
+    { primary: "#8b5cf6", secondary: "#06b6d4", tertiary: "#ec4899" }, // Violet Cyber
+    { primary: "#10b981", secondary: "#06b6d4", tertiary: "#8b5cf6" }, // Emerald Cyan
     { primary: "#f43f5e", secondary: "#fb923c", tertiary: "#a855f7" }, // Sunset Neon
-    { primary: "#06b6d4", secondary: "#3b82f6", tertiary: "#8b5cf6" }  // Electric Cyan
+    { primary: "#06b6d4", secondary: "#3b82f6", tertiary: "#ec4899" }  // Ocean Blue
   ];
 
   let currentIndex = 0;
@@ -464,6 +477,24 @@ function initThemeSwitcher(audio) {
     document.documentElement.style.setProperty("--secondary-accent", theme.secondary);
     document.documentElement.style.setProperty("--tertiary-accent", theme.tertiary);
 
-    showToast("Accent Color Shifted!");
+    showToast("Theme Accent Shifted!");
   });
 }
+
+/* ==========================================================================
+   SMRU KPIS MODAL CONTROLLER
+   ========================================================================== */
+function openKpiModal() {
+  const kpiModal = document.getElementById("kpi-modal");
+  if (kpiModal) {
+    kpiModal.classList.add("show");
+  }
+}
+
+function closeKpiModal() {
+  const kpiModal = document.getElementById("kpi-modal");
+  if (kpiModal) {
+    kpiModal.classList.remove("show");
+  }
+}
+
